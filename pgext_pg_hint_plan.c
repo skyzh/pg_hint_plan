@@ -10,6 +10,8 @@
 #include <string.h>
 
 #include "postgres.h"
+#include "pgext.h"
+
 #include "access/genam.h"
 #include "access/heapam.h"
 #include "access/relation.h"

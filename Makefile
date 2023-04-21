@@ -1,30 +1,30 @@
 #
-# pg_hint_plan: Makefile
+# pgext_pg_hint_plan: Makefile
 #
 # Copyright (c) 2012-2023, NIPPON TELEGRAPH AND TELEPHONE CORPORATION
 #
 
-MODULES = pg_hint_plan
+MODULES = pgext_pg_hint_plan
 HINTPLANVER = 1.5
 
 REGRESS = init base_plan pg_hint_plan ut-init ut-A ut-S ut-J ut-L ut-G ut-R \
 	ut-fdw ut-W ut-T ut-fini hints_anywhere plpgsql oldextversions
 REGRESS_OPTS = --encoding=UTF8
 
-EXTENSION = pg_hint_plan
+EXTENSION = pgext_pg_hint_plan
 DATA = \
-	pg_hint_plan--1.3.0.sql \
-	pg_hint_plan--1.3.0--1.3.1.sql \
-	pg_hint_plan--1.3.1--1.3.2.sql \
-	pg_hint_plan--1.3.2--1.3.3.sql \
-	pg_hint_plan--1.3.3--1.3.4.sql \
-	pg_hint_plan--1.3.5--1.3.6.sql \
-	pg_hint_plan--1.3.4--1.3.5.sql \
-	pg_hint_plan--1.3.6--1.3.7.sql \
-	pg_hint_plan--1.3.7--1.3.8.sql \
-	pg_hint_plan--1.3.8--1.4.sql \
-	pg_hint_plan--1.4--1.4.1.sql \
-	pg_hint_plan--1.4.1--1.5.sql
+	pgext_pg_hint_plan--1.3.0.sql \
+	pgext_pg_hint_plan--1.3.0--1.3.1.sql \
+	pgext_pg_hint_plan--1.3.1--1.3.2.sql \
+	pgext_pg_hint_plan--1.3.2--1.3.3.sql \
+	pgext_pg_hint_plan--1.3.3--1.3.4.sql \
+	pgext_pg_hint_plan--1.3.5--1.3.6.sql \
+	pgext_pg_hint_plan--1.3.4--1.3.5.sql \
+	pgext_pg_hint_plan--1.3.6--1.3.7.sql \
+	pgext_pg_hint_plan--1.3.7--1.3.8.sql \
+	pgext_pg_hint_plan--1.3.8--1.4.sql \
+	pgext_pg_hint_plan--1.4--1.4.1.sql \
+	pgext_pg_hint_plan--1.4.1--1.5.sql
 
 EXTRA_CLEAN = RPMS
 
@@ -32,7 +32,7 @@ EXTRA_CLEAN = RPMS
 # EXTRA_INSTALL from PostgreSQL tree
 # run the following command in the PG tree to run a regression test
 # loading this module.
-# $ make check EXTRA_INSTALL=<this directory> EXTRA_REGRESS_OPTS="--temp-config <this directory>/pg_hint_plan.conf"
+# $ make check EXTRA_INSTALL=<this directory> EXTRA_REGRESS_OPTS="--temp-config <this directory>/pgext_pg_hint_plan.conf"
 ifeq ($(wildcard $(DESTDIR)/../src/Makefile.global),)
 PG_CONFIG = pg_config
 PGXS := $(shell $(PG_CONFIG) --pgxs)
@@ -44,19 +44,19 @@ include $(DESTDIR)/../src/Makefile.global
 include $(DESTDIR)/../contrib/contrib-global.mk
 endif
 
-STARBALL15 = pg_hint_plan15-$(HINTPLANVER).tar.gz
+STARBALL15 = pgext_pg_hint_plan15-$(HINTPLANVER).tar.gz
 STARBALLS = $(STARBALL15)
 
 TARSOURCES = Makefile *.c  *.h COPYRIGHT* \
-	pg_hint_plan--*.sql \
-	pg_hint_plan.control \
+	pgext_pg_hint_plan--*.sql \
+	pgext_pg_hint_plan.control \
 	doc/* expected/*.out sql/*.sql sql/maskout*.sh \
 	data/data.csv SPECS/*.spec
 
 rpms: rpm15
 
-# pg_hint_plan.c includes core.c and make_join_rel.c
-pg_hint_plan.o: core.c make_join_rel.c # pg_stat_statements.c
+# pgext_pg_hint_plan.c includes core.c and make_join_rel.c
+pgext_pg_hint_plan.o: core.c make_join_rel.c # pg_stat_statements.c
 
 $(STARBALLS): $(TARSOURCES)
 	if [ -h $(subst .tar.gz,,$@) ]; then rm $(subst .tar.gz,,$@); fi
@@ -69,4 +69,4 @@ $(STARBALLS): $(TARSOURCES)
 	rm $(subst .tar.gz,,$@)
 
 rpm15: $(STARBALL15)
-	MAKE_ROOT=`pwd` rpmbuild -bb SPECS/pg_hint_plan15.spec
+	MAKE_ROOT=`pwd` rpmbuild -bb SPECS/pgext_pg_hint_plan15.spec
