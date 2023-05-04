@@ -10,7 +10,6 @@
 #include <string.h>
 
 #include "postgres.h"
-#include "pgext.h"
 
 #include "access/genam.h"
 #include "access/heapam.h"
@@ -64,6 +63,8 @@
 #ifdef PG_MODULE_MAGIC
 PG_MODULE_MAGIC;
 #endif
+
+#include "pgextmgr.h"
 
 #define BLOCK_COMMENT_START		"/*"
 #define BLOCK_COMMENT_END		"*/"
@@ -651,6 +652,8 @@ _PG_init(void)
 {
 	PLpgSQL_plugin	**var_ptr;
 
+	__pgext_before_init("pgext_pg_pg_hint_plan");
+
 	/* Define custom GUC variables. */
 	DefineCustomBoolVariable("pg_hint_plan.enable_hint",
 			 "Force planner to use plans specified in the hint comment preceding to the query.",
@@ -738,6 +741,8 @@ _PG_init(void)
 	*var_ptr = &plugin_funcs;
 
 	RegisterResourceReleaseCallback(plpgsql_query_erase_callback, NULL);
+
+	__pgext_after_init();
 }
 
 /*
